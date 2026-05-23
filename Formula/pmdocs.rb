@@ -3,8 +3,8 @@
 class Pmdocs < Formula
   desc "Native CLI for Payload Markdown Docs"
   homepage "https://github.com/valkyrianlabs/payload-markdown-docs"
-  url "https://github.com/valkyrianlabs/payload-markdown-docs/archive/refs/tags/v0.18.0.tar.gz"
-  sha256 "caa72e83e5c7efcb613b843d3571c2d27273daf2b9282be98f59bbae3c388385"
+  url "https://github.com/valkyrianlabs/payload-markdown-docs/archive/refs/tags/v0.18.2.tar.gz"
+  sha256 "00308f2adf0d30fce5b39fc8534dbca6847199a1cd5ba12ab8627935569ca886"
   license "MIT"
   head "https://github.com/valkyrianlabs/payload-markdown-docs.git", branch: "main"
 
