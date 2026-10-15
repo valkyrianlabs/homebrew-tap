@@ -5,8 +5,8 @@
 class FortiCli < Formula
   desc "FortiOS command-line interface: discover, read, plan and apply FortiGate config"
   homepage "https://github.com/valkyrianlabs/forti-cli"
-  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.1.0/forti-cli-0.1.0.tar.gz"
-  sha256 "a3b343f59cefd8c0c3806aedf72e139b17a26cd8b7a3296fc0f9e3619654a6f5"
+  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.1.1/forti-cli-0.1.1.tar.gz"
+  sha256 "c5e701aa87a91cbd72ff8a38e261a8d621edca5521a46da9dabd4e9c8197f5c9"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-cli.git", branch: "main"
 
