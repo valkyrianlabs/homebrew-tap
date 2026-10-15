@@ -5,8 +5,8 @@
 class FortiMcp < Formula
   desc "FortiOS MCP server: FortiGate discovery, reads and planned changes"
   homepage "https://github.com/valkyrianlabs/forti-mcp"
-  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.1.0/forti-mcp-0.1.0.tar.gz"
-  sha256 "bd5ec9df17d26982a758e59218d6e0013cf7a48dfacbb5edf9766b8a688d8b97"
+  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.1.1/forti-mcp-0.1.1.tar.gz"
+  sha256 "23a354942547e8a01b536f7b55e7b2a1db74377c598689b048fb91860a5ecca1"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-mcp.git", branch: "main"
 
