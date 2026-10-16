@@ -5,8 +5,8 @@
 class FortiMcp < Formula
   desc "FortiOS MCP server: FortiGate discovery, reads and planned changes"
   homepage "https://github.com/valkyrianlabs/forti-mcp"
-  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.1.1/forti-mcp-0.1.1.tar.gz"
-  sha256 "23a354942547e8a01b536f7b55e7b2a1db74377c598689b048fb91860a5ecca1"
+  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.2.0/forti-mcp-0.2.0.tar.gz"
+  sha256 "92d08030e7267334454540e5351ffdeaccb488aac5ace7dbf799bc4e7bccdd58"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-mcp.git", branch: "main"
 
@@ -22,8 +22,8 @@ class FortiMcp < Formula
   # subprojects/forti-cli.wrap pins (packaging/forti-cli-pin.sh keeps the two in step). forti-mcp
   # installs independently: it needs neither the forti-cli formula nor the `forti` executable.
   resource "forti-cli" do
-    url "https://github.com/valkyrianlabs/forti-cli/archive/ecacc679d81880b194eb2472ecf42d179c4632d8.tar.gz"
-    sha256 "9d10e500726ddbbe23e89346236720ec636bd25244e0b1f7d8102497019a1b6f"
+    url "https://github.com/valkyrianlabs/forti-cli/archive/bc91aa920c6b51ef7f7ec6db99573fafb7b131e9.tar.gz"
+    sha256 "6edf9d50c85154e08cc5c2e22cb1493c6810c4d3b21fff98aca234c07ca0e3bd"
   end
 
   def install
@@ -46,9 +46,7 @@ class FortiMcp < Formula
     assert_match "forti-mcp #{version} (engine forti-cli ", shell_output("#{bin}/forti-mcp --version")
 
     # Offline: an MCP client's handshake and tool listing need no profile, device or network.
-    ENV["FORTI_CONFIG_DIR"] = (testpath/"config").to_s
-    ENV["XDG_STATE_HOME"] = (testpath/"state").to_s
-    ENV["XDG_CACHE_HOME"] = (testpath/"cache").to_s
+    ENV["FORTI_HOME"] = (testpath/"forti").to_s
     requests = [
       { jsonrpc: "2.0", id: 1, method: "initialize",
         params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "brew", version: "1" } } },
