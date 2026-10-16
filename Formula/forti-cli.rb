@@ -5,8 +5,8 @@
 class FortiCli < Formula
   desc "FortiOS command-line interface: discover, read, plan and apply FortiGate config"
   homepage "https://github.com/valkyrianlabs/forti-cli"
-  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.1.1/forti-cli-0.1.1.tar.gz"
-  sha256 "c5e701aa87a91cbd72ff8a38e261a8d621edca5521a46da9dabd4e9c8197f5c9"
+  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.2.0/forti-cli-0.2.0.tar.gz"
+  sha256 "f7f680d3a19dee5c2e6bd7991a729c8470799321542e6444ebc1d1daa9fe1400"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-cli.git", branch: "main"
 
@@ -35,7 +35,7 @@ class FortiCli < Formula
     assert_match "forti #{version}", shell_output("#{bin}/forti --version")
 
     # Offline: the resource catalog is compiled in, so no profile or device is needed.
-    ENV["FORTI_CONFIG_DIR"] = (testpath/"config").to_s
+    ENV["FORTI_HOME"] = (testpath/"forti").to_s
     output = JSON.parse(shell_output("#{bin}/forti --json discover firewall/address"))
     assert output["ok"]
     assert_includes output["data"]["fields"].map { |field| field["name"] }, "subnet"
