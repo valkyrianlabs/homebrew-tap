@@ -3,8 +3,8 @@
 class Pmdocs < Formula
   desc "Native CLI for Payload Markdown Docs"
   homepage "https://github.com/valkyrianlabs/payload-markdown-docs"
-  url "https://github.com/valkyrianlabs/payload-markdown-docs/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "0fd55ab802ddf9a7d5134c4762a87b88df039772f77576b5bddf712c0414e171"
+  url "https://github.com/valkyrianlabs/payload-markdown-docs/releases/download/v1.2.0/pmdocs-1.2.0.tar.gz"
+  sha256 "0d089360133a04aa13c862aaf98cf46fe0b0d2404bab8155d23a526b7f23511c"
   license "MIT"
   head "https://github.com/valkyrianlabs/payload-markdown-docs.git", branch: "main"
 
@@ -19,11 +19,9 @@ class Pmdocs < Formula
   depends_on "openssl@3"
 
   def install
-    # The release archive ships the payload-markdown-docs skill but not the npm
-    # companion skill, so install the bundled skill data and let Meson skip the
-    # companion when it is absent.
-    system "meson", "setup", "build", *std_meson_args,
-           "-Dinstall_skill_data=true", "-Dcompanion_skill_data=auto"
+    # The source archive carries both skills: payload-markdown-docs and the
+    # payload-markdown skill vendored in skills/payload-markdown.
+    system "meson", "setup", "build", *std_meson_args, "-Dinstall_skill_data=true"
     system "meson", "compile", "-C", "build"
     system "meson", "install", "-C", "build"
   end
@@ -31,8 +29,9 @@ class Pmdocs < Formula
   test do
     assert_match version.to_s, shell_output("#{bin}/pmdocs --version")
     assert_match "status: ok", shell_output("#{bin}/pmdocs doctor")
-    assert_match "payload-markdown-docs/SKILL.md",
-                 shell_output("#{bin}/pmdocs install skill --agent codex --dry-run")
+    dry_run = shell_output("#{bin}/pmdocs install skill --agent codex --dry-run")
+    assert_match "payload-markdown-docs/SKILL.md", dry_run
+    assert_match "payload-markdown/SKILL.md", dry_run
     assert_match "pmdocs skill install", shell_output("#{bin}/pmdocs skill install --help")
   end
 end
