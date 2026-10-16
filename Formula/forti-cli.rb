@@ -5,14 +5,14 @@
 class FortiCli < Formula
   desc "FortiOS command-line interface: discover, read, plan and apply FortiGate config"
   homepage "https://github.com/valkyrianlabs/forti-cli"
-  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.3.1/forti-cli-0.3.1.tar.gz"
-  sha256 "a45ae2d508b0bec0233d176c237467ed553b825ef4ee6a31190177233d7a7b60"
+  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.4.1/forti-cli-0.4.1.tar.gz"
+  sha256 "d436d3c8fa1b39d1d27799da2ea80adc83efe21a7b5840cc56541637160d187b"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-cli.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.3.1"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "f5cf1b0162ebe72e06e6d3d1e160dc06ea4ed461c83381f88614eaebf89a5604"
+    root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.4.1"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "b921549bd7c6fb605950a796baa1ba47f0655c070a153f4b8a00b9bf0d02a932"
   end
 
   # Header-only SDK: needed to compile, not at run time.
@@ -45,5 +45,12 @@ class FortiCli < Formula
     output = JSON.parse(shell_output("#{bin}/forti --json discover firewall/address"))
     assert output["ok"]
     assert_includes output["data"]["fields"].map { |field| field["name"] }, "subnet"
+
+    # Shell completion: meson installs it under share/, which Homebrew links into its prefix (bash
+    # through bash-completion@2, zsh through site-functions, fish through vendor_completions.d).
+    assert_path_exists share/"bash-completion/completions/forti"
+    assert_path_exists zsh_completion/"_forti"
+    assert_path_exists fish_completion/"forti.fish"
+    assert_equal "get\n", shell_output("#{bin}/forti __complete commands ge")
   end
 end
