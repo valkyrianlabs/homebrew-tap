@@ -5,8 +5,8 @@
 class FortiApi < Formula
   desc "Header-only C++23 client for the FortiGate REST API (FortiOS v2)"
   homepage "https://github.com/valkyrianlabs/forti-api"
-  url "https://github.com/valkyrianlabs/forti-api/releases/download/v1.0.2/forti-api-1.0.2.tar.gz"
-  sha256 "785cb02ca762b2eb8eb7bfe9797120f9c8abaca3bc1fdba2d8a91fc4ff3d9965"
+  url "https://github.com/valkyrianlabs/forti-api/releases/download/v1.1.0/forti-api-1.1.0.tar.gz"
+  sha256 "709b01065d843028e5dbe872dff14c82b9cd70f0028d1f5c7dbf5e489fd11f35"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-api.git", branch: "main"
 
