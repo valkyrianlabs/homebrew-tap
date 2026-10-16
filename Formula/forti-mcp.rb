@@ -5,10 +5,15 @@
 class FortiMcp < Formula
   desc "FortiOS MCP server: FortiGate discovery, reads and planned changes"
   homepage "https://github.com/valkyrianlabs/forti-mcp"
-  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.2.0/forti-mcp-0.2.0.tar.gz"
-  sha256 "92d08030e7267334454540e5351ffdeaccb488aac5ace7dbf799bc4e7bccdd58"
+  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.3.0/forti-mcp-0.3.0.tar.gz"
+  sha256 "c2be437ff495805e99c7f5479ca3fabea797b3a691d06da4b8d6d564e6dd16b4"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-mcp.git", branch: "main"
+
+  bottle do
+    root_url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.3.0"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "7901aa642efc9da40ca4f10c778b51d11362bfc8f5d691a386ab02c636c9d0db"
+  end
 
   # Header-only SDK: needed to compile, not at run time.
   depends_on "forti-api" => :build
@@ -22,8 +27,8 @@ class FortiMcp < Formula
   # subprojects/forti-cli.wrap pins (packaging/forti-cli-pin.sh keeps the two in step). forti-mcp
   # installs independently: it needs neither the forti-cli formula nor the `forti` executable.
   resource "forti-cli" do
-    url "https://github.com/valkyrianlabs/forti-cli/archive/bc91aa920c6b51ef7f7ec6db99573fafb7b131e9.tar.gz"
-    sha256 "6edf9d50c85154e08cc5c2e22cb1493c6810c4d3b21fff98aca234c07ca0e3bd"
+    url "https://github.com/valkyrianlabs/forti-cli/archive/d0e83a803d8c849ff092866339866c2bea69e498.tar.gz"
+    sha256 "c11cb1a424d27d1e237322576723c1a9b95ccabc0bf857b649974938503d3572"
   end
 
   def install
@@ -36,9 +41,7 @@ class FortiMcp < Formula
     # strip=true installs the binary without its symbol table.
     # The tests need GoogleTest and run in CI; the `test do` block exercises the installed binary.
     system "meson", "setup", "build", "-Dtests=disabled", "-Doptimization=3", "-Dstrip=true", *std_meson_args
-    # Each engine shard translation unit needs about 2 GB of RAM: cap the jobs so an 8 GB Mac
-    # does not swap.
-    system "meson", "compile", "-C", "build", "--jobs", [ENV.make_jobs, 4].min.to_s
+    system "meson", "compile", "-C", "build"
     system "meson", "install", "-C", "build", "--skip-subprojects"
   end
 
