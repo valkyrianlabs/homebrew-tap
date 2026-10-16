@@ -5,16 +5,24 @@
 class FortiCli < Formula
   desc "FortiOS command-line interface: discover, read, plan and apply FortiGate config"
   homepage "https://github.com/valkyrianlabs/forti-cli"
-  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.2.0/forti-cli-0.2.0.tar.gz"
-  sha256 "f7f680d3a19dee5c2e6bd7991a729c8470799321542e6444ebc1d1daa9fe1400"
+  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.3.1/forti-cli-0.3.1.tar.gz"
+  sha256 "a45ae2d508b0bec0233d176c237467ed553b825ef4ee6a31190177233d7a7b60"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-cli.git", branch: "main"
+
+  bottle do
+    root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.3.1"
+    sha256 cellar: "any_skip_relocation", arm64_tahoe: "f5cf1b0162ebe72e06e6d3d1e160dc06ea4ed461c83381f88614eaebf89a5604"
+  end
 
   # Header-only SDK: needed to compile, not at run time.
   depends_on "forti-api" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkgconf" => :build
+
+  # The MCP server for AI clients (forti mcp install): installed alongside, still its own formula.
+  depends_on "valkyrianlabs/tap/forti-mcp"
 
   uses_from_macos "curl"
 
@@ -25,9 +33,7 @@ class FortiCli < Formula
     # strip=true installs the binary without its symbol table (24 MB -> 12 MB).
     # The tests need GoogleTest and run in CI; the `test do` block exercises the installed binary.
     system "meson", "setup", "build", "-Dtests=disabled", "-Doptimization=3", "-Dstrip=true", *std_meson_args
-    # Each engine shard translation unit needs about 2 GB of RAM: cap the jobs so an 8 GB Mac
-    # does not swap.
-    system "meson", "compile", "-C", "build", "--jobs", [ENV.make_jobs, 4].min.to_s
+    system "meson", "compile", "-C", "build"
     system "meson", "install", "-C", "build"
   end
 
