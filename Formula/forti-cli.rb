@@ -13,7 +13,7 @@ class FortiCli < Formula
   bottle do
     root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.5.0"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "379c5fd56e58a59878d9fa5159c39c4f6f822d1ef1f62ce51e96ff854d902e00"
-    sha256 cellar: :any_skip_relocation, sequoia: "269c86294c6e470124d68503daa9fc054d8343d68ff6fbbd0d47020e44482a21"
+    sha256 cellar: :any_skip_relocation, sequoia:       "269c86294c6e470124d68503daa9fc054d8343d68ff6fbbd0d47020e44482a21"
   end
 
   # Header-only SDK: needed to compile, not at run time.

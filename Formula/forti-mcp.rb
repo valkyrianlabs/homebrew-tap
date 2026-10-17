@@ -13,7 +13,7 @@ class FortiMcp < Formula
   bottle do
     root_url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.4.1"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "2a930693a8c6d26be9e4839443164299b5deb31ccc6ffc7b738311959e2be768"
-    sha256 cellar: :any_skip_relocation, sequoia: "c4bfff1479279132b3e7a7f29d861adb5cc75c6c89a95b8e711fd9e524733049"
+    sha256 cellar: :any_skip_relocation, sequoia:       "c4bfff1479279132b3e7a7f29d861adb5cc75c6c89a95b8e711fd9e524733049"
   end
 
   # Header-only SDK: needed to compile, not at run time.
