@@ -5,15 +5,15 @@
 class FortiMcp < Formula
   desc "FortiOS MCP server: FortiGate discovery, reads and planned changes"
   homepage "https://github.com/valkyrianlabs/forti-mcp"
-  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.4.1/forti-mcp-0.4.1.tar.gz"
-  sha256 "c2a24985a3f9da14aaa712de50b0124ea747335876e5710d4dc63ac7d144b4c0"
+  url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.5.0/forti-mcp-0.5.0.tar.gz"
+  sha256 "77dd1d1b927e2c4e6dff8e37a087ee7c9c0fff105a0db15125f05be645521d47"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-mcp.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.4.1"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "2a930693a8c6d26be9e4839443164299b5deb31ccc6ffc7b738311959e2be768"
-    sha256 cellar: :any_skip_relocation, sequoia:       "c4bfff1479279132b3e7a7f29d861adb5cc75c6c89a95b8e711fd9e524733049"
+    root_url "https://github.com/valkyrianlabs/forti-mcp/releases/download/v0.5.0"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "5a5c41e4a7fb1aaf4a78e922529834864ec1fa41ed7d036f2f1b50c0cbdf4cb1"
+    sha256 cellar: :any_skip_relocation, sequoia:       "c8b0a3b8b2db5f185a5ee9e36decbb2156cb053ecc3d443ecfe4b5f0837ffa9a"
   end
 
   # Header-only SDK: needed to compile, not at run time.
@@ -28,8 +28,8 @@ class FortiMcp < Formula
   # subprojects/forti-cli.wrap pins (packaging/forti-cli-pin.sh keeps the two in step). forti-mcp
   # installs independently: it needs neither the forti-cli formula nor the `forti` executable.
   resource "forti-cli" do
-    url "https://github.com/valkyrianlabs/forti-cli/archive/468f9e1e8f6a8a17852834ad6127df0c81815b07.tar.gz"
-    sha256 "11f0c95c06f970da0b7d67f1bf877d7958968575fe61c6a7ef2cc662e5bfec9e"
+    url "https://github.com/valkyrianlabs/forti-cli/archive/6a17b34a7b8f4aaedeee33a9f4ea71a71f73f855.tar.gz"
+    sha256 "3193e73a3d8d660b821c1960f8d0bb3b29b8b10f96fb8a10f55cc4f500b14421"
   end
 
   def install
