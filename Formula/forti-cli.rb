@@ -5,15 +5,15 @@
 class FortiCli < Formula
   desc "FortiOS command-line interface: discover, read, plan and apply FortiGate config"
   homepage "https://github.com/valkyrianlabs/forti-cli"
-  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.5.0/forti-cli-0.5.0.tar.gz"
-  sha256 "6925ab42340b2fe48241d3dae698091b5856b08061e2639b231d03e7bb6c4967"
+  url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.6.0/forti-cli-0.6.0.tar.gz"
+  sha256 "63c80954e6e4da8bceb775d6d489a58c2fcb62cdecc56c82edf07c530c62a45f"
   license "MIT"
   head "https://github.com/valkyrianlabs/forti-cli.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.5.0"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "379c5fd56e58a59878d9fa5159c39c4f6f822d1ef1f62ce51e96ff854d902e00"
-    sha256 cellar: :any_skip_relocation, sequoia:       "269c86294c6e470124d68503daa9fc054d8343d68ff6fbbd0d47020e44482a21"
+    root_url "https://github.com/valkyrianlabs/forti-cli/releases/download/v0.6.0"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "eaeb9ec0436a46c77dbe6367135a9912d962e8e8272b41f149aa3121bf88a4ac"
+    sha256 cellar: :any_skip_relocation, sequoia:       "c8e575bf7498009643d63cd9abe5a7508265abede09a72afbd7aafb22e9ab658"
   end
 
   # Header-only SDK: needed to compile, not at run time.
