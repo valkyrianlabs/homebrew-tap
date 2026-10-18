@@ -3,8 +3,8 @@
 class Pmdocs < Formula
   desc "Native CLI for Payload Markdown Docs"
   homepage "https://github.com/valkyrianlabs/payload-markdown-docs"
-  url "https://github.com/valkyrianlabs/payload-markdown-docs/releases/download/v1.2.0/pmdocs-1.2.0.tar.gz"
-  sha256 "0d089360133a04aa13c862aaf98cf46fe0b0d2404bab8155d23a526b7f23511c"
+  url "https://github.com/valkyrianlabs/payload-markdown-docs/releases/download/v1.3.1/pmdocs-1.3.1.tar.gz"
+  sha256 "9717e12723a99a8e5399d44f16ab088bd832f395f030324d6eceb4bc9bdef0ff"
   license "MIT"
   head "https://github.com/valkyrianlabs/payload-markdown-docs.git", branch: "main"
 
@@ -17,6 +17,8 @@ class Pmdocs < Formula
   depends_on "pkgconf" => :build
   depends_on "curl"
   depends_on "openssl@3"
+  # Built as a shared library by the formula (bottles carry a dylib), so a runtime dependency.
+  depends_on "tomlplusplus"
 
   def install
     # The source archive carries both skills: payload-markdown-docs and the
