@@ -1,5 +1,5 @@
 # Homebrew cask for the Vaulthalla server package, without the Desktop app (rendered per release by
-# tools/macos/pkg/render-cask.sh in valkyrianlabs/vaulthalla-server into this repository as Casks/vaulthalla-server.rb).
+# tools/macos/pkg/render-cask.sh in valkyrianlabs/vaulthalla-server as Casks/vaulthalla-server.rb).
 #   brew install --cask valkyrianlabs/tap/vaulthalla-server
 cask "vaulthalla-server" do
   version "1.18.0"
