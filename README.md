@@ -19,11 +19,14 @@ brew install valkyrianlabs/tap/forti-cli valkyrianlabs/tap/forti-mcp
 brew install valkyrianlabs/tap/forti-cli valkyrianlabs/tap/forti-hole
 ```
 
-Homebrew trusts the formulae named in full on the command line and remembers that, so later
-`brew upgrade` runs need nothing more. It does not trust the rest of the tap, so a short name
-(`brew tap valkyrianlabs/tap`, then `brew install forti-cli`) is refused until you trust the tap
-yourself. Every formula here depends on homebrew/core formulae only, never on another formula from
-this tap, which is what lets the one command work.
+Homebrew trusts the formulae named in full on the command line and remembers that, so short names,
+`brew upgrade` and `brew doctor` work for them afterwards. Formulae you have not installed that way
+stay untrusted: `brew tap valkyrianlabs/tap` followed by a short-name `brew install` is refused.
+Every formula here depends on homebrew/core formulae only, never on another formula from this tap,
+which is what lets the one command work. See [Tap trust](https://docs.brew.sh/Tap-Trust).
+
+Installed from this tap before (with `brew tap` and short names)? Run
+`brew upgrade valkyrianlabs/tap/<formula>` once per formula to record its trust.
 
 In a `brew bundle` `Brewfile`, use the full name and mark the formula trusted, as
 `brew bundle dump` writes it:
