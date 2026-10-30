@@ -1,0 +1,57 @@
+# Homebrew cask for Vaulthalla with the Desktop app, the full local experience (rendered per release by
+# tools/macos/pkg/render-cask.sh into the valkyrianlabs/homebrew-tap repository as Casks/vaulthalla.rb). It installs
+# the server package with its Vaulthalla Desktop choice on: one download, so Homebrew loads no other cask (a
+# dependency cask from a third-party tap would need `brew trust`). The app updates itself (Sparkle); the package
+# never replaces a newer copy.
+cask "vaulthalla" do
+  version "1.19.0"
+  sha256 "daa7f2ba97888173e4be0c57a80f52097ddd60472b380009ff9cd1d1d09bf731"
+
+  url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg"
+  name "Vaulthalla"
+  desc "Self-hosted encrypted cloud with the Desktop app, web console and vh CLI"
+  homepage "https://vaulthalla.io/"
+
+  conflicts_with cask: ["vaulthalla-server", "vaulthalla-desktop"]
+  depends_on arch: :arm64
+  depends_on macos: :golden_gate
+
+  pkg "vaulthalla-#{version}-arm64.pkg",
+      choices: [
+        {
+          "choiceIdentifier" => "sh.vaulthalla.desktop",
+          "choiceAttribute"  => "selected",
+          "attributeSetting" => 1,
+        },
+      ]
+
+  # Keeps vault data, the database and the _vaulthalla account; `brew uninstall --zap` deletes them too.
+  uninstall quit:    "sh.vaulthalla.app",
+            script:  {
+              executable: "/Library/Application Support/Vaulthalla/uninstall.sh",
+              sudo:       true,
+            },
+            pkgutil: ["sh.vaulthalla.server", "sh.vaulthalla.desktop"],
+            delete:  "/Applications/Vaulthalla.app"
+
+  zap script: {
+        executable: "/Library/Application Support/Vaulthalla/uninstall.sh",
+        args:       ["--purge"],
+        sudo:       true,
+      },
+      trash:  [
+        "~/Library/Application Support/Vaulthalla",
+        "~/Library/Caches/sh.vaulthalla.app",
+        "~/Library/Group Containers/ZG2G6V7GLC.sh.vaulthalla.app",
+        "~/Library/HTTPStorages/sh.vaulthalla.app",
+        "~/Library/Preferences/sh.vaulthalla.app.plist",
+        "~/Library/Saved Application State/sh.vaulthalla.app.savedState",
+      ]
+
+  caveats <<~EOS
+    Vaulthalla runs as a system service (LaunchDaemons sh.vaulthalla.*) and starts at boot.
+    Web console: http://127.0.0.1:36968 (user 'admin'; first password:
+      sudo cat "/Library/Application Support/Vaulthalla/state/super_admin_initial_password")
+    Vaulthalla Desktop is in /Applications and updates itself.
+  EOS
+end
