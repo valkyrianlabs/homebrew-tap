@@ -2,8 +2,8 @@
 # valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-desktop.rb:
 #   brew install --cask valkyrianlabs/tap/vaulthalla-desktop
 cask "vaulthalla-desktop" do
-  version "0.1.0"
-  sha256 "9c422b990cfd750cf8cdfe1660cdb343e11cec29ff6f9fb3d7c47d781e9e9a44"
+  version "0.2.0"
+  sha256 "feddf1e5a40995bf4df09ac8b9bb4bad6849632f6b58b30ce2e5619b88dcf508"
 
   url "https://github.com/valkyrianlabs/vaulthalla-desktop/releases/download/v#{version}/Vaulthalla-#{version}.dmg"
   name "Vaulthalla Desktop"
@@ -17,6 +17,8 @@ cask "vaulthalla-desktop" do
 
   # Sparkle updates the app in place; Homebrew leaves upgrades to it.
   auto_updates true
+  # The vaulthalla cask (server + Desktop) installs the same app from the server package.
+  conflicts_with cask: "vaulthalla"
   depends_on arch: :arm64
   depends_on macos: :golden_gate
 
