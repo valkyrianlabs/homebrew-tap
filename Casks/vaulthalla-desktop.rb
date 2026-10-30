@@ -1,0 +1,34 @@
+# Homebrew cask for Vaulthalla Desktop, rendered per release by tools/release/build.sh into the
+# valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-desktop.rb:
+#   brew install --cask valkyrianlabs/tap/vaulthalla-desktop
+cask "vaulthalla-desktop" do
+  version "0.1.0"
+  sha256 "9c422b990cfd750cf8cdfe1660cdb343e11cec29ff6f9fb3d7c47d781e9e9a44"
+
+  url "https://github.com/valkyrianlabs/vaulthalla-desktop/releases/download/v#{version}/Vaulthalla-#{version}.dmg"
+  name "Vaulthalla Desktop"
+  desc "Native app for Vaulthalla nodes: administration, files, Finder and AI agents"
+  homepage "https://vaulthalla.io/"
+
+  livecheck do
+    url "https://github.com/valkyrianlabs/vaulthalla-desktop/releases/latest/download/appcast.xml"
+    strategy :sparkle
+  end
+
+  # Sparkle updates the app in place; Homebrew leaves upgrades to it.
+  auto_updates true
+  depends_on arch: :arm64
+  depends_on macos: :golden_gate
+
+  app "Vaulthalla.app"
+
+  # The paired-node registry and settings. Device keys stay in the Keychain ("Vaulthalla" items).
+  zap trash: [
+    "~/Library/Application Support/Vaulthalla",
+    "~/Library/Caches/sh.vaulthalla.app",
+    "~/Library/Group Containers/ZG2G6V7GLC.sh.vaulthalla.app",
+    "~/Library/HTTPStorages/sh.vaulthalla.app",
+    "~/Library/Preferences/sh.vaulthalla.app.plist",
+    "~/Library/Saved Application State/sh.vaulthalla.app.savedState",
+  ]
+end
