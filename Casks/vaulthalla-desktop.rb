@@ -2,8 +2,8 @@
 # valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-desktop.rb:
 #   brew install --cask valkyrianlabs/tap/vaulthalla-desktop
 cask "vaulthalla-desktop" do
-  version "0.4.1"
-  sha256 "22af52c74e5f245905233769eca07097345d403a94142acbba45675bba886c31"
+  version "0.4.2"
+  sha256 "3883472458e4bc2e5275ea60aa12f56511f54380497695547d250d57c7ba1adf"
 
   url "https://github.com/valkyrianlabs/vaulthalla-desktop/releases/download/v#{version}/Vaulthalla-#{version}.dmg"
   name "Vaulthalla Desktop"
