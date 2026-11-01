@@ -3,8 +3,8 @@
 # `brew install --cask valkyrianlabs/tap/vaulthalla-server` runs the same package as `sudo installer -pkg` (its
 # Desktop choice stays off), so both paths provision identically.
 cask "vaulthalla-server" do
-  version "1.19.0"
-  sha256 "daa7f2ba97888173e4be0c57a80f52097ddd60472b380009ff9cd1d1d09bf731"
+  version "1.20.0"
+  sha256 "79c5764d86e72ff0db515abd300490f59e464c3233e5600dd16776f9f9d62f64"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg"
   name "Vaulthalla Server"
