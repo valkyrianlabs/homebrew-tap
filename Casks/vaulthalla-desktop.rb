@@ -2,8 +2,8 @@
 # valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-desktop.rb:
 #   brew install --cask valkyrianlabs/tap/vaulthalla-desktop
 cask "vaulthalla-desktop" do
-  version "0.3.1"
-  sha256 "284b2d729557cfeab8ab15f5c112f0c5575a8b026a817924808dd29f7e19f332"
+  version "0.4.0"
+  sha256 "a03b392cd4bb280383cc4788292f6533d1fd1bcb0ffc25aaaa48fd93427ca980"
 
   url "https://github.com/valkyrianlabs/vaulthalla-desktop/releases/download/v#{version}/Vaulthalla-#{version}.dmg"
   name "Vaulthalla Desktop"
@@ -22,12 +22,19 @@ cask "vaulthalla-desktop" do
 
   app "Vaulthalla.app"
 
-  # The paired-node registry and settings. Device keys stay in the Keychain ("Vaulthalla" items).
+  # The paired-node registry, settings, the File Provider extension's container and Sparkle's downloads.
+  # Device keys stay in the Keychain ("Vaulthalla" items). Finder copies under ~/Library/CloudStorage stay too:
+  # they can hold edits that were never uploaded.
   zap trash: [
+    "~/Library/Application Scripts/sh.vaulthalla.app.fileprovider",
+    "~/Library/Application Scripts/ZG2G6V7GLC.sh.vaulthalla.app",
     "~/Library/Application Support/Vaulthalla",
     "~/Library/Caches/sh.vaulthalla.app",
+    "~/Library/Caches/sh.vaulthalla.app.sparkle",
+    "~/Library/Containers/sh.vaulthalla.app.fileprovider",
     "~/Library/Group Containers/ZG2G6V7GLC.sh.vaulthalla.app",
     "~/Library/HTTPStorages/sh.vaulthalla.app",
+    "~/Library/HTTPStorages/sh.vaulthalla.app.binarycookies",
     "~/Library/Preferences/sh.vaulthalla.app.plist",
     "~/Library/Saved Application State/sh.vaulthalla.app.savedState",
   ]
