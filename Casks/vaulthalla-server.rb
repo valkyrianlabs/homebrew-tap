@@ -1,17 +1,16 @@
-# Homebrew cask for the Vaulthalla server, without the Desktop app (rendered per release by
-# tools/macos/pkg/render-cask.sh into the valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-server.rb).
-# `brew install --cask valkyrianlabs/tap/vaulthalla-server` runs the same package as `sudo installer -pkg` (its
-# Desktop choice stays off), so both paths provision identically.
+# Homebrew cask for the Vaulthalla server (rendered per release by tools/macos/pkg/render-cask.sh into the
+# valkyrianlabs/homebrew-tap repository as Casks/vaulthalla-server.rb). `brew install --cask
+# valkyrianlabs/tap/vaulthalla-server` runs the same package as `sudo installer -pkg`, so both paths provision
+# identically. The `vaulthalla` meta cask depends on it.
 cask "vaulthalla-server" do
-  version "1.20.0"
-  sha256 "79c5764d86e72ff0db515abd300490f59e464c3233e5600dd16776f9f9d62f64"
+  version "1.20.2"
+  sha256 "d7bd4b73e66c221efc6d3f1bd37dcc19e319a78b9e8ad4dc0b874606b260a795"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg"
   name "Vaulthalla Server"
   desc "Self-hosted encrypted cloud: server, web console and vh CLI"
   homepage "https://vaulthalla.io/"
 
-  conflicts_with cask: "vaulthalla"
   depends_on arch: :arm64
   depends_on macos: :sonoma
 
@@ -34,6 +33,6 @@ cask "vaulthalla-server" do
     Vaulthalla runs as a system service (LaunchDaemons sh.vaulthalla.*) and starts at boot.
     Web console: http://127.0.0.1:36968 (user 'admin'; first password:
       sudo cat "/Library/Application Support/Vaulthalla/state/super_admin_initial_password")
-    For the Desktop app too, install valkyrianlabs/tap/vaulthalla instead.
+    Vaulthalla Desktop: brew install --cask valkyrianlabs/tap/vaulthalla-desktop
   EOS
 end
