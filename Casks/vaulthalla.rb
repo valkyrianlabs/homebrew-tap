@@ -6,8 +6,8 @@
 #
 # Homebrew loads a dependency cask only from a trusted tap: run `brew trust valkyrianlabs/tap` once first.
 cask "vaulthalla" do
-  version "1.20.2"
-  sha256 "2e16288f3728bc1b19eb2b9706bac0da3c9c2d44af36cedd673aaab4af6c1b91"
+  version "1.21.1"
+  sha256 "0244060673ed22369087c99d3f17c7c7428f805ddf0a34b36aba122a1d48b759"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg.sha256"
   name "Vaulthalla"
@@ -21,10 +21,26 @@ cask "vaulthalla" do
 
   stage_only true
 
+  # Opens Vaulthalla Desktop once, on this cask's first install, so the install ends with Desktop set up with this
+  # Mac's server: at launch Desktop pairs with it through the server's `vh`, as the person installing (no pairing
+  # code: the server's installer bound their macOS account to its 'admin'). Install steps are sandboxed away from the
+  # home folder, so Desktop does the pairing itself, outside it. Upgrades and reinstalls don't open it again: the
+  # marker stays in the Caskroom for good (Homebrew runs uninstall steps on upgrades too, so removing it there would
+  # reopen Desktop after every server upgrade). Without a login session `open` fails and Desktop pairs when opened.
+  postflight_steps do
+    unless_path_exists ".desktop-opened", base: :caskroom_path do
+      if_path_exists "Vaulthalla.app", base: :appdir do
+        run "/usr/bin/open", args: ["-a", "{{appdir}}/Vaulthalla.app"], must_succeed: false
+      end
+      touch ".desktop-opened", base: :caskroom_path
+    end
+  end
+
   caveats <<~EOS
     Vaulthalla is installed as two casks, which upgrade on their own:
       valkyrianlabs/tap/vaulthalla-server   the service, web console and vh CLI (`brew upgrade`)
       valkyrianlabs/tap/vaulthalla-desktop  the app (updates itself)
+    Vaulthalla Desktop sets itself up with this server when it opens: no pairing code to compare.
     Uninstalling this cask leaves both; uninstall them by name.
   EOS
 end
