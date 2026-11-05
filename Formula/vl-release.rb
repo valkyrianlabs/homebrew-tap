@@ -7,8 +7,8 @@ class VlRelease < Formula
 
   desc "Deterministic release toolkit for Valkyrian Labs projects"
   homepage "https://github.com/valkyrianlabs/vl-release"
-  url "https://github.com/valkyrianlabs/vl-release/releases/download/v0.6.0/vl-release-0.6.0.tar.gz"
-  sha256 "92388dfc0e16e5978c333fcdc8e074187ff06b764ba972f82048aadccfec3e18"
+  url "https://github.com/valkyrianlabs/vl-release/releases/download/v0.7.0/vl-release-0.7.0.tar.gz"
+  sha256 "2f8e340b7b99bad4f57e3e339707fa03f896d94f9f5eda73595e630a771e38d2"
   license "MIT"
   head "https://github.com/valkyrianlabs/vl-release.git", branch: "main"
 
