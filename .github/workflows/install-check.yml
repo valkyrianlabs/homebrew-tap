@@ -1,0 +1,121 @@
+# Every formula installs the way the README tells users to: one `brew install valkyrianlabs/tap/<name>`
+# on a stock macOS runner with current Homebrew, an empty trust store and no `brew tap` or
+# `brew trust`. Homebrew trusts the formula named in full and refuses to load any other formula from
+# this (untrusted, third-party) tap, build dependencies of a poured bottle included, so a formula
+# that depends on another formula here fails this check.
+#
+# Pull requests tap this checkout (the formulae under review) under the name valkyrianlabs/tap; pushes
+# to main and manual runs let `brew install` tap github.com/valkyrianlabs/homebrew-tap itself, exactly
+# as a user's first install does.
+name: Install check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: install-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  formulae:
+    name: List formulae
+    runs-on: ubuntu-latest
+    outputs:
+      names: ${{ steps.list.outputs.names }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - id: list
+        run: |
+          names="$(find Formula -name '*.rb' -exec basename {} .rb \; | sort | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().split()))')"
+          echo "names=$names" >> "$GITHUB_OUTPUT"
+          echo "$names"
+
+  install:
+    name: ${{ matrix.formula }}
+    needs: formulae
+    runs-on: macos-15
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        formula: ${{ fromJSON(needs.formulae.outputs.names) }}
+    env:
+      FORMULA: valkyrianlabs/tap/${{ matrix.formula }}
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+      HOMEBREW_NO_ENV_HINTS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          path: tap
+
+      - name: Current Homebrew, empty trust store
+        run: |
+          brew update --quiet
+          brew --version
+          # Without tap trust this check would prove nothing.
+          brew commands --quiet | grep -qx trust
+          # A private, empty trust store: Homebrew keeps it in $XDG_CONFIG_HOME/homebrew when that is set.
+          mkdir -m 700 "$RUNNER_TEMP/config"
+          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/config" >> "$GITHUB_ENV"
+          echo "HOMEBREW_NO_AUTO_UPDATE=1" >> "$GITHUB_ENV"
+
+      - name: Tap this checkout as valkyrianlabs/tap
+        if: github.event_name == 'pull_request'
+        run: |
+          git -C tap checkout -q -B install-check
+          brew tap valkyrianlabs/tap "$GITHUB_WORKSPACE/tap"
+
+      - name: brew install ${{ env.FORMULA }}
+        run: |
+          test ! -e "$XDG_CONFIG_HOME/homebrew/trust.json"
+          brew install "$FORMULA"
+          echo "Trust store after the install:"
+          cat "$XDG_CONFIG_HOME/homebrew/trust.json"
+
+      - name: Later commands need no further trust
+        run: |
+          brew test "$FORMULA"
+          brew info "$FORMULA"
+          brew upgrade --dry-run "$FORMULA"
+          brew outdated
+
+  brewfile:
+    name: Brewfile (brew bundle)
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+      HOMEBREW_NO_ENV_HINTS: "1"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          path: tap
+
+      - name: Current Homebrew, empty trust store
+        run: |
+          brew update --quiet
+          brew commands --quiet | grep -qx trust
+          mkdir -m 700 "$RUNNER_TEMP/config"
+          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/config" >> "$GITHUB_ENV"
+          echo "HOMEBREW_NO_AUTO_UPDATE=1" >> "$GITHUB_ENV"
+
+      - name: Tap this checkout as valkyrianlabs/tap
+        if: github.event_name == 'pull_request'
+        run: |
+          git -C tap checkout -q -B install-check
+          brew tap valkyrianlabs/tap "$GITHUB_WORKSPACE/tap"
+
+      # The README's Brewfile form, with forti-api (homebrew/core dependencies only, a short source build).
+      - name: brew bundle install
+        run: |
+          test ! -e "$XDG_CONFIG_HOME/homebrew/trust.json"
+          echo 'brew "valkyrianlabs/tap/forti-api", trusted: true' > "$RUNNER_TEMP/Brewfile"
+          brew bundle install --file "$RUNNER_TEMP/Brewfile"
+          brew bundle check --file "$RUNNER_TEMP/Brewfile"
+          cat "$XDG_CONFIG_HOME/homebrew/trust.json"
