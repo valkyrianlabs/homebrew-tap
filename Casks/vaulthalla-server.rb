@@ -3,8 +3,8 @@
 # valkyrianlabs/tap/vaulthalla-server` runs the same package as `sudo installer -pkg`, so both paths provision
 # identically. The `vaulthalla` meta cask depends on it.
 cask "vaulthalla-server" do
-  version "1.23.0"
-  sha256 "92a35f851519f90e3621ec9159e4856dce2e0c5f4119f82f98a641ce7b1264c9"
+  version "1.24.1"
+  sha256 "62d2d7eea12be98c5b3e7993fcda7cbe8f33dfa2a8cbad58b1a2bcdbf7c82df0"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg"
   name "Vaulthalla Server"
