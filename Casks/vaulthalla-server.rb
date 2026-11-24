@@ -3,8 +3,8 @@
 # valkyrianlabs/tap/vaulthalla-server` runs the same package as `sudo installer -pkg`, so both paths provision
 # identically. The `vaulthalla` meta cask depends on it.
 cask "vaulthalla-server" do
-  version "1.25.0"
-  sha256 "ee150c6c70de5c5381b27ab02f4f83f258d33bacc68761964b9085d6720b57e7"
+  version "1.26.0"
+  sha256 "b5a6aaf52ce30821d4eb86de4d0e3623f30512e124e2d66b71c812c8a505c0a2"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg"
   name "Vaulthalla Server"
@@ -13,6 +13,8 @@ cask "vaulthalla-server" do
 
   depends_on arch: :arm64
   depends_on macos: :sonoma
+  # gpg: vault read grants (and key exports with --recipient) encrypt to OpenPGP keys with the system GnuPG.
+  depends_on formula: "gnupg"
 
   pkg "vaulthalla-#{version}-arm64.pkg"
 
