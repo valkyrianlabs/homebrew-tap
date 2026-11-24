@@ -6,8 +6,8 @@
 #
 # Homebrew loads a dependency cask only from a trusted tap: run `brew trust valkyrianlabs/tap` once first.
 cask "vaulthalla" do
-  version "1.26.0"
-  sha256 "562fbbb2cb00b7cb22464cc0dc81e236d0f261fa2a822f83ea2ff2e30821a257"
+  version "1.26.1"
+  sha256 "ac1a6b4b97bd7d60e6fa3b3a4b3fa62d048fec824682ab77bf79dfb48899e34d"
 
   url "https://github.com/valkyrianlabs/vaulthalla-server/releases/download/v#{version}/vaulthalla-#{version}-arm64.pkg.sha256"
   name "Vaulthalla"
